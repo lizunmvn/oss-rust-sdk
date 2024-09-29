@@ -44,6 +44,19 @@ pub trait AsyncObjectAPI {
         H: Into<Option<HashMap<S2, S2>>> + Send,
         R: Into<Option<HashMap<S2, Option<S2>>>> + Send;
 
+    async fn append_object<S1, S2, H, R>(
+        &self,
+        buf: &[u8],
+        object_name: S1,
+        headers: H,
+        resources: R,
+    ) -> Result<(), Error>
+    where
+        S1: AsRef<str> + Send,
+        S2: AsRef<str> + Send,
+        H: Into<Option<HashMap<S2, S2>>> + Send,
+        R: Into<Option<HashMap<S2, Option<S2>>>> + Send;
+
     async fn copy_object_from_object<S1, S2, S3, H, R>(
         &self,
         src: S1,
@@ -231,7 +244,50 @@ impl<'a> AsyncObjectAPI for OSS<'a> {
                     "can not put object, status code, status code: {}",
                     resp.status()
                 )
-                .into(),
+                    .into(),
+            }))
+        }
+    }
+
+    async fn append_object<S1, S2, H, R>(
+        &self,
+        buf: &[u8],
+        object_name: S1,
+        headers: H,
+        resources: R,
+    ) -> Result<(), Error>
+    where
+        S1: AsRef<str> + Send,
+        S2: AsRef<str> + Send,
+        H: Into<Option<HashMap<S2, S2>>> + Send,
+        R: Into<Option<HashMap<S2, Option<S2>>>> + Send,
+    {
+        let (host, headers) =
+            self.build_request(RequestType::Post, object_name, headers, resources)?;
+        // println!("header size: {}", headers.len());
+        // println!("host: {}", host);
+        //
+        // for (key, value) in headers.iter() {
+        //     println!("key: {:?}, value: {:?}", key, value);
+        // }
+
+        let resp = self
+            .http_client
+            .post(&host)
+            .headers(headers)
+            .body(buf.to_owned())
+            .send()
+            .await?;
+
+        if resp.status().is_success() {
+            Ok(())
+        } else {
+            Err(Error::Object(ObjectError::DeleteError {
+                msg: format!(
+                    "can not put object, status code, status code: {}",
+                    resp.status()
+                )
+                    .into(),
             }))
         }
     }
@@ -337,7 +393,7 @@ impl<'a> AsyncObjectAPI for OSS<'a> {
                     "init multi failed, status code, status code: {}",
                     resp.status()
                 )
-                .into(),
+                    .into(),
             }))
         }
     }
@@ -375,7 +431,7 @@ impl<'a> AsyncObjectAPI for OSS<'a> {
                     "can not put object, status code, status code: {}",
                     resp.status()
                 )
-                .into(),
+                    .into(),
             }))
         }
     }
@@ -414,7 +470,7 @@ impl<'a> AsyncObjectAPI for OSS<'a> {
                     "complete multi failed, status code, status code: {}",
                     resp.status()
                 )
-                .into(),
+                    .into(),
             }))
         }
     }
@@ -449,7 +505,7 @@ impl<'a> AsyncObjectAPI for OSS<'a> {
                     "abort multi failed, status code, status code: {}",
                     resp.status()
                 )
-                .into(),
+                    .into(),
             }))
         }
     }

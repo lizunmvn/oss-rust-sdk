@@ -222,6 +222,7 @@ impl<'a> OSS<'a> {
 
         let host = self.host(self.bucket(), object_name, &params_str);
         let date = self.date();
+        // println!("date: {}",date);
         let mut headers = if let Some(h) = headers.into() {
             to_headers(h)?
         } else {
@@ -237,7 +238,9 @@ impl<'a> OSS<'a> {
             &resources_str,
             &headers,
         );
-        headers.insert("Authorization", authorization.parse()?);
+        // println!("authorization: {}", authorization);
+        let auth = authorization.parse()?;
+        headers.insert("Authorization", auth);
 
         Ok((host, headers))
     }
@@ -284,7 +287,7 @@ impl ObjectMeta {
                             "can not find {} in head response, response header: {:?}",
                             key, header
                         )
-                        .into(),
+                            .into(),
                     })
                 })?
                 .to_str()
