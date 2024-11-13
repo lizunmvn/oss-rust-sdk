@@ -10,6 +10,7 @@ use super::errors::{Error, ObjectError};
 
 use async_trait::async_trait;
 use bytes::Bytes;
+use reqwest::header::HeaderValue;
 
 #[async_trait]
 pub trait AsyncObjectAPI {
@@ -255,7 +256,7 @@ impl<'a> AsyncObjectAPI for OSS<'a> {
         object_name: S1,
         headers: H,
         resources: R,
-    ) -> Result<(), Error>
+    ) -> Result<HeaderValue, Error>
     where
         S1: AsRef<str> + Send,
         S2: AsRef<str> + Send,
@@ -280,7 +281,10 @@ impl<'a> AsyncObjectAPI for OSS<'a> {
             .await?;
 
         if resp.status().is_success() {
-            Ok(())
+            // let res = resp.text().await;
+            let resp_headers = resp.headers();
+            let res = resp_headers.get("x-oss-next-append-position").unwrap();
+            Ok(res.clone())
         } else {
             Err(Error::Object(ObjectError::DeleteError {
                 msg: format!(
