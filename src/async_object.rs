@@ -51,7 +51,7 @@ pub trait AsyncObjectAPI {
         object_name: S1,
         headers: H,
         resources: R,
-    ) -> Result<(), Error>
+    ) -> Result<HeaderValue, Error>
     where
         S1: AsRef<str> + Send,
         S2: AsRef<str> + Send,
