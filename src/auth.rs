@@ -31,7 +31,7 @@ pub trait Auth {
     ) -> String;
 }
 
-impl<'a> Auth for OSS<'a> {
+impl Auth for OSS {
     fn sign(
         &self,
         verb: &str,

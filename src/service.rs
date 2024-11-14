@@ -150,7 +150,7 @@ pub trait ServiceAPI {
         R: Into<Option<HashMap<S, Option<S>>>>;
 }
 
-impl<'a> ServiceAPI for OSS<'a> {
+impl ServiceAPI for OSS {
     fn list_bucket<S, R>(&self, resources: R) -> Result<ListBuckets, Error>
     where
         S: AsRef<str>,

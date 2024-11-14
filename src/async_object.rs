@@ -170,7 +170,7 @@ pub trait AsyncObjectAPI {
 }
 
 #[async_trait]
-impl<'a> AsyncObjectAPI for OSS<'a> {
+impl AsyncObjectAPI for OSS {
     async fn list_object<S, H, R>(&self, headers: H, resources: R) -> Result<ListObjects, Error>
     where
         S: AsRef<str>,

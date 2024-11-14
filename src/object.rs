@@ -254,7 +254,7 @@ pub trait ObjectAPI {
         S: AsRef<str>;
 }
 
-impl<'a> PrivateObjectAPI for OSS<'a> {
+impl PrivateObjectAPI for OSS {
     fn generate_presigned_path<S1>(&self, object_name: S1, expires: usize) -> String
     where
         S1: AsRef<str> + Send,
@@ -280,7 +280,7 @@ impl<'a> PrivateObjectAPI for OSS<'a> {
     }
 }
 
-impl<'a> ObjectAPI for OSS<'a> {
+impl ObjectAPI for OSS {
     fn list_object<S, H, R>(&self, headers: H, resources: R) -> Result<ListObjects, Error>
     where
         S: AsRef<str>,

@@ -21,10 +21,10 @@ async fn main() {
 
 async fn append_object() {
     let oss_instance = OSS::new(
-        "your_AccessKeyId",
-        "your_AccessKeySecret",
-        "your_Endpoint",
-        "your_Bucket",
+        "your_AccessKeyId".to_string(),
+        "your_AccessKeySecret".to_string(),
+        "your_Endpoint".to_string(),
+        "your_Bucket".to_string(),
     );
 
     let mut headers = HashMap::new();
@@ -46,10 +46,10 @@ async fn append_object() {
 async fn put_object() {
     // use your own oss config
     let oss_instance = OSS::new(
-        "your_AccessKeyId",
-        "your_AccessKeySecret",
-        "your_Endpoint",
-        "your_Bucket",
+        "your_AccessKeyId".to_string(),
+        "your_AccessKeySecret".to_string(),
+        "your_Endpoint".to_string(),
+        "your_Bucket".to_string(),
     );
 
     let mut headers = HashMap::new();
@@ -65,10 +65,10 @@ fn get_object() {
 
     // use your own oss config
     let oss_instance = OSS::new(
-        "your_AccessKeyId",
-        "your_AccessKeySecret",
-        "your_Endpoint",
-        "your_Bucket",
+        "your_AccessKeyId".to_string(),
+        "your_AccessKeySecret".to_string(),
+        "your_Endpoint".to_string(),
+        "your_Bucket".to_string(),
     );
 
     let result = oss_rust_sdk::async_object::AsyncObjectAPI::get_object(&oss_instance, "objectName", None::<HashMap<&str, &str>>, None);
@@ -94,10 +94,10 @@ fn async_get_object() {
 
     // use your own oss config
     let oss_instance = OSS::new(
-        "your_AccessKeyId",
-        "your_AccessKeySecret",
-        "your_Endpoint",
-        "your_Bucket",
+        "your_AccessKeyId".to_string(),
+        "your_AccessKeySecret".to_string(),
+        "your_Endpoint".to_string(),
+        "your_Bucket".to_string(),
     );
 
     let mut rt = Runtime::new().expect("failed to start runtime");
@@ -116,10 +116,10 @@ fn async_list_object() {
 
     // use your own oss config
     let oss_instance = OSS::new(
-        "your_AccessKeyId",
-        "your_AccessKeySecret",
-        "your_Endpoint",
-        "your_Bucket",
+        "your_AccessKeyId".to_string(),
+        "your_AccessKeySecret".to_string(),
+        "your_Endpoint".to_string(),
+        "your_Bucket".to_string(),
     );
     let mut params = HashMap::new();
     params.insert("max-keys", Some("5"));
@@ -139,10 +139,10 @@ fn list_object() {
 
     // use your own oss config
     let oss_instance = OSS::new(
-        "your_AccessKeyId",
-        "your_AccessKeySecret",
-        "your_Endpoint",
-        "your_Bucket",
+        "your_AccessKeyId".to_string(),
+        "your_AccessKeySecret".to_string(),
+        "your_Endpoint".to_string(),
+        "your_Bucket".to_string(),
     );
 
     let mut params = HashMap::new();

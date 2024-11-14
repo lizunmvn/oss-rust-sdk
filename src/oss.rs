@@ -66,11 +66,11 @@ const RESOURCES: [&str; 50] = [
 ];
 
 #[derive(Clone, Debug)]
-pub struct OSS<'a> {
-    key_id: Cow<'a, str>,
-    key_secret: Cow<'a, str>,
-    endpoint: Cow<'a, str>,
-    bucket: Cow<'a, str>,
+pub struct OSS {
+    key_id: String,
+    key_secret: String,
+    endpoint: String,
+    bucket: String,
 
     pub(crate) http_client: Client,
 }
@@ -81,17 +81,14 @@ pub struct Options {
     pub timeout: Option<Duration>,
 }
 
-impl<'a> OSS<'a> {
-    pub fn new<S>(key_id: S, key_secret: S, endpoint: S, bucket: S) -> Self
-    where
-        S: Into<Cow<'a, str>>,
+impl OSS {
+    pub fn new(key_id: String, key_secret: String, endpoint: String, bucket: String) -> Self
+
     {
         Self::new_with_opts(key_id, key_secret, endpoint, bucket, Default::default())
     }
 
-    pub fn new_with_opts<S>(key_id: S, key_secret: S, endpoint: S, bucket: S, opts: Options) -> Self
-    where
-        S: Into<Cow<'a, str>>,
+    pub fn new_with_opts(key_id: String, key_secret: String, endpoint: String, bucket: String, opts: Options) -> Self
     {
         let mut builder = Client::builder();
         if let Some(timeout) = opts.timeout {
@@ -127,7 +124,7 @@ impl<'a> OSS<'a> {
         &self.key_secret
     }
 
-    pub fn set_bucket(&mut self, bucket: &'a str) {
+    pub fn set_bucket(&mut self, bucket: String) {
         self.bucket = bucket.into()
     }
 
